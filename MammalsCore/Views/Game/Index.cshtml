@@ -6,43 +6,28 @@
     ViewData["Title"] = "View";
 }
 
-<h2>View</h2>
-
-<div>
-    <h4>Game</h4>
+<h2>@Model.Name</h2>
+<dl class="dl-horizontal">
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+</dl>
+    <h4>Overall score: @Model.Score</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Score)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Score)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-</div>
 
 
 <div>
-    <a onclick="@("window.location.href='"+ @Url.Action("CreateReview", "Review", new {gameName = Model.Name }) + "'");">Write a review</a>
+    <button onclick="@("window.location.href='"+ @Url.Action("CreateReview", "Review", new {gameName = Model.Name }) + "'");" type="button" class="btn btn-primary">Write a review</button>
 </div>
 
 @foreach (Review review in Model.Reviews)
 {
-    <div class="Review">
-        @review.Description
-        @review.Score
+    <div class="card border-primary mb-3" style="max-width: 20rem;">
+        <div class="card-header">Username</div>
+        <div class="card-body">
+            <h4 class="card-title">@review.Score</h4>
+            <p class="card-text" style="font-style: italic">"@review.Description"</p>
+        </div>
     </div>
 }
 
