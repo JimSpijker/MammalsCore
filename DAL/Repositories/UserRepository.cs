@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DAL.Repositories
 {
-    class UserRepository : IUserContext
+    public class UserRepository : IUserContext
     {
         private readonly UserContext context;
 
@@ -17,25 +17,14 @@ namespace DAL.Repositories
             this.context = context;
         }
 
-        public bool AddReview(Review review)
-        {
-            return context.AddReview(review);
-        }
+        
 
         public bool ChangePassword(User updatedUser)
         {
             return context.ChangePassword(updatedUser);
         }
 
-        public bool DeleteReview(Review review)
-        {
-            return context.DeleteReview(review);
-        }
-
-        public DataSet GetReviews(User user)
-        {
-            return context.GetReviews(user);
-        }
+        
 
         public DataSet Login(string name, string password)
         {

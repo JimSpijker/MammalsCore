@@ -36,6 +36,7 @@ namespace MammalsCore
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IGameContext, GameContext>();
+            services.AddSingleton<IReviewContext, ReviewContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

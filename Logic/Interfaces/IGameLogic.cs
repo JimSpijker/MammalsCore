@@ -8,5 +8,6 @@ namespace Logic.Interfaces
     interface IGameLogic
     {
         Game GetGame(string gameName);
+
     }
 }

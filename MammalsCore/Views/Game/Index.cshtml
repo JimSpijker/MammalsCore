@@ -1,4 +1,6 @@
-﻿@model Models.Game
+﻿@using Microsoft.AspNetCore.Rewrite.Internal
+@using Models
+@model Models.Game
 
 @{
     ViewData["Title"] = "View";
@@ -11,16 +13,16 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Score)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Score)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Description)
@@ -30,6 +32,17 @@
         </dd>
     </dl>
 </div>
+
+
 <div>
+    <a onclick="@("window.location.href='"+ @Url.Action("CreateReview", "Review", new {gameName = Model.Name }) + "'");">Write a review</a>
 </div>
+
+@foreach (Review review in Model.Reviews)
+{
+    <div class="Review">
+        @review.Description
+        @review.Score
+    </div>
+}
 

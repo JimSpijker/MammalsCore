@@ -11,8 +11,6 @@ namespace DAL.Context.Interfaces
         bool Register(User user);
         DataSet Login(string name, string password);
         bool ChangePassword(User updatedUser);
-        DataSet GetReviews(User user);
-        bool AddReview(Review review);
-        bool DeleteReview(Review review);
+        
     }
 }

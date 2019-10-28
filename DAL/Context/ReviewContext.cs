@@ -9,13 +9,13 @@ using System.Data;
 
 namespace DAL.Context
 {
-    class ReviewContext : IReviewContext
+    public class ReviewContext : IReviewContext
     {
         private readonly Connection con;
 
-        public ReviewContext(Connection con)
+        public ReviewContext()
         {
-            this.con = con;
+            con = new Connection();
         }
 
         public bool UpdateReview(Review changedReview)
@@ -23,17 +23,83 @@ namespace DAL.Context
             
                 con.SqlConnection.Open();
                 using (SqlCommand cmd =
-                        new SqlCommand(
-                            "UPDATE Review SET Description = @description, Score = @score WHERE ReviewId = @reviewId", con.SqlConnection)
+                    new SqlCommand(
+                        "UPDATE Review SET Description = @description, Score = @score WHERE ReviewId = @reviewId",
+                        con.SqlConnection)
                 )
                 {
                     cmd.Parameters.Add(new SqlParameter("description", changedReview.Description));
                     cmd.Parameters.Add(new SqlParameter("score", changedReview.Score));
                     cmd.Parameters.Add(new SqlParameter("reviewId", changedReview.Id));
-                
+
+                    con.SqlConnection.Close();
+                    return true;
+                }
+
+        }
+
+        public List<Review> GetReviews(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Review> GetReviews(Game game)
+        {
+            List<Review> reviews = new List<Review>();
+            con.SqlConnection.Open();
+            using (SqlCommand cmd =
+                new SqlCommand(
+                    "SELECT * FROM Review WHERE Review.GameId = @gameId",
+                    con.SqlConnection)
+            )
+            {
+                cmd.Parameters.Add(new SqlParameter("gameId", game.Id));
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet);
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    Review review = new Review(Convert.ToInt32(dataRow["ReviewId"]),Convert.ToInt32(dataRow["UserId"]), game, Convert.ToString(dataRow["Description"]), Convert.ToInt32(dataRow["Score"]));
+                    reviews.Add(review);
+                }
                 con.SqlConnection.Close();
-                return true;
+                return reviews;
             }
+        }
+
+        public bool AddReview(Review review)
+        {
+
+            con.SqlConnection.Open();
+            using (SqlCommand cmd =
+                new SqlCommand(
+                    "INSERT INTO Review (UserId, GameId, Description, Score) VALUES(@userId, @gameId, @description, @score)", con.SqlConnection)
+            )
+            {
+                cmd.Parameters.Add(new SqlParameter("userId", review.UserId));
+                cmd.Parameters.Add(new SqlParameter("gameId", review.Game.Id));
+                cmd.Parameters.Add(new SqlParameter("description", review.Description));
+                cmd.Parameters.Add(new SqlParameter("score", review.Score));
+                cmd.ExecuteNonQuery();
+            }
+            con.SqlConnection.Close();
+            return true;
+
+        }
+        public bool DeleteReview(Review review)
+        {
+
+            con.SqlConnection.Open();
+            using (SqlCommand cmd =
+                new SqlCommand(
+                    "DELETE FROM Review WHERE ReviewId = @reviewId", con.SqlConnection)
+            )
+            {
+                cmd.Parameters.Add(new SqlParameter("reviewId", review.Id));
+            }
+            con.SqlConnection.Close();
+            return true;
+
         }
     }
 }

@@ -5,9 +5,13 @@ using Models;
 
 namespace DAL.Context.Interfaces
 {
-    interface IReviewContext
+    public interface IReviewContext
     {
         bool UpdateReview(Review changedReview);
+        List<Review> GetReviews(User user);
+        List<Review> GetReviews(Game game);
+        bool AddReview(Review review);
+        bool DeleteReview(Review review);
 
     }
 }
