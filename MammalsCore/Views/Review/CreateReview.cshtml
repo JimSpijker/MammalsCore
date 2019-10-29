@@ -13,16 +13,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea class="form-control" asp-for="Description" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 129px;" maxlength="200"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Score" class="control-label"></label>
-                <input asp-for="Score" class="form-control" />
+                <input asp-for="Score" class="form-control" type="number" min="0" max="10" step="1" />
+                <asp:rangevalidator ID="Rangevalidator1" errormessage="Please enter value between 0-10." forecolor="Red" controltovalidate="txtRangeValidator" minimumvalue="0" maximumvalue="10" runat="server" Type="Integer">
+                </asp:rangevalidator>
                 <span asp-validation-for="Score" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -20,7 +20,12 @@ namespace MammalsCore.Controllers
             this.gameContext = gameContext;
             this.reviewContext = reviewContext;
         }
+        public ActionResult Index()
+        {
+            return View();
+        }
 
+        [HttpGet]
         public ActionResult Index(string id)
         {
             GameLogic gameLogic = new GameLogic(gameContext);
@@ -29,15 +34,37 @@ namespace MammalsCore.Controllers
             game = gameLogic.GetGame(id);
             game.Reviews = reviewLogic.GetReviews(game);
             int n = 0;
-            foreach (Review review in game.Reviews)
+            if (game.Reviews.Count != 0)
             {
-                n += review.Score;
-            }
-            game.Score = Convert.ToInt32(n / game.Reviews.Count);
-            return View(game);
+                foreach (Review review in game.Reviews)
+                {
+                    n += review.Score;
+                }
 
+                game.Score = Convert.ToInt32(n / game.Reviews.Count);
+            }
+            return View(game);
         }
 
-        
+        public ActionResult CreateGame()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateGame(Game game)
+        {
+            GameLogic gameLogic = new GameLogic(gameContext);
+            if (gameLogic.AddGame(game) != null)
+            {
+                return RedirectToAction("Index", new {id = game.Name});
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+
     }
 }

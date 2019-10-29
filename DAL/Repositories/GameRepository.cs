@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using Models;
 
 namespace DAL.Repositories
 {
@@ -18,6 +19,11 @@ namespace DAL.Repositories
         public DataSet GetGame(string gameName)
         {
             return context.GetGame(gameName);
+        }
+
+        public Game AddGame(Game game)
+        {
+            return context.AddGame(game);
         }
     }
 }

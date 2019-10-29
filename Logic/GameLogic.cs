@@ -29,5 +29,10 @@ namespace Logic
             }
             return game;
         }
+
+        public Game AddGame(Game game)
+        {
+            return repository.AddGame(game);
+        }
     }
 }
