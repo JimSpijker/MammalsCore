@@ -34,5 +34,10 @@ namespace Logic
         {
             return repository.AddGame(game);
         }
+
+        public List<Game> SearchGames(string searchTerm)
+        {
+            return repository.SearchGames(searchTerm);
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace DAL.Context.Interfaces
     {
         DataSet GetGame(string gameName);
         Game AddGame(Game game);
+        List<Game> SearchGames(string searchTerm);
     }
 }

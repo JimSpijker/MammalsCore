@@ -40,7 +40,7 @@ namespace MammalsCore.Controllers
             review.Game = gameLogic.GetGame(review.Game.Name);
             if (reviewLogic.AddReview(review))
             {
-                return RedirectToAction("Index", review);
+                return RedirectToAction("Index", "Game", new {id = review.Game.Name});
             }
             else
             {

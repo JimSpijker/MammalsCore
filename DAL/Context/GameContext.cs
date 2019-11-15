@@ -52,5 +52,29 @@ namespace DAL.Context
             con.SqlConnection.Close();
             return game;
         }
+
+        public List<Game> SearchGames(string searchTerm)
+        {
+            List<Game> games = new List<Game>();
+            con.SqlConnection.Open();
+            using (SqlCommand cmd =
+                new SqlCommand(
+                    "SELECT * FROM Game WHERE Name LIKE '%'+@searchTerm+'%'",
+                    con.SqlConnection)
+            )
+            {
+                cmd.Parameters.Add(new SqlParameter("searchTerm", searchTerm));
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet);
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                {
+                    Game game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]),Convert.ToString(dataRow["Description"]));
+                    games.Add(game);
+                }
+                con.SqlConnection.Close();
+                return games;
+            }
+        }
     }
 }

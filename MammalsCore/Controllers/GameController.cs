@@ -46,13 +46,13 @@ namespace MammalsCore.Controllers
             return View(game);
         }
 
-        public ActionResult CreateGame()
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateGame(Game game)
+        public IActionResult Create(Game game)
         {
             GameLogic gameLogic = new GameLogic(gameContext);
             if (gameLogic.AddGame(game) != null)
@@ -63,6 +63,13 @@ namespace MammalsCore.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+
+        [HttpPost]
+        public IActionResult Search(_LayoutViewModel _LayoutViewModel)
+        {
+            GameLogic gameLogic = new GameLogic(gameContext);
+            return View(gameLogic.SearchGames(_LayoutViewModel.SearchQuery));
         }
 
 

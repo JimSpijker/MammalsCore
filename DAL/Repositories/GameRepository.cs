@@ -25,5 +25,10 @@ namespace DAL.Repositories
         {
             return context.AddGame(game);
         }
+
+        public List<Game> SearchGames(string searchTerm)
+        {
+            return context.SearchGames(searchTerm);
+        }
     }
 }

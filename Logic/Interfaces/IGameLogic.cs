@@ -9,6 +9,7 @@ namespace Logic.Interfaces
     {
         Game GetGame(string gameName);
         Game AddGame(Game game);
+        List<Game> SearchGames(string searchTerm);
 
     }
 }
