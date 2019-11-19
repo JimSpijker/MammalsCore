@@ -66,10 +66,10 @@ namespace MammalsCore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Search(_LayoutViewModel _LayoutViewModel)
+        public IActionResult Search(string id)
         {
             GameLogic gameLogic = new GameLogic(gameContext);
-            return View(gameLogic.SearchGames(_LayoutViewModel.SearchQuery));
+            return View(gameLogic.SearchGames(id));
         }
 
 

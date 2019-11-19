@@ -1,6 +1,4 @@
-﻿@model _LayoutViewModel
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -44,8 +42,8 @@
                 </li>
             </ul>
             <form asp-action="Search" asp-controller="Game" class="form-inline my-2 my-lg-0">
-                <input asp-for="SearchQuery" class="form-control mr-sm-2" type="text" placeholder="Search">
-                <span asp-validation-for="SearchQuery"></span>
+                <input name="id" class="form-control mr-sm-2" type="text" placeholder="Search">
+                <span></span>
                 <div class="form-group">
                     <input type="submit" value="Search" class="btn btn-primary" />
                 </div>
@@ -87,6 +85,3 @@
 
 </body>
 </html>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
