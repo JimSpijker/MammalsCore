@@ -4,10 +4,11 @@ using System.Text;
 using Models;
 using DAL.Context;
 using DAL.Context.Interfaces;
+using Logic.RepositoryInterfaces;
 
 namespace DAL.Repositories
 {
-    public class ReviewRepository : IReviewContext
+    public class ReviewRepository : IReviewReviewRepository, IGameReviewRepository, IUserReviewRepository
     {
         private readonly IReviewContext context;
 
@@ -16,19 +17,14 @@ namespace DAL.Repositories
             this.context = context;
         }
 
-        public bool UpdateReview(Review changedReview)
+        public bool AddReview(Review review)
         {
-            return context.UpdateReview(changedReview);
+            return context.AddReview(review);
         }
 
         public bool DeleteReview(Review review)
         {
-            return context.DeleteReview(review);
-        }
-
-        public List<Review> GetReviews(User user)
-        {
-            return context.GetReviews(user);
+            throw new NotImplementedException();
         }
 
         public List<Review> GetReviews(Game game)
@@ -36,9 +32,14 @@ namespace DAL.Repositories
             return context.GetReviews(game);
         }
 
-        public bool AddReview(Review review)
+        public List<Review> GetReviews(User user)
         {
-            return context.AddReview(review);
+            throw new NotImplementedException();
+        }
+
+        public void UpdateReview(Review oldReview, Review newReview)
+        {
+            throw new NotImplementedException();
         }
     }
 }

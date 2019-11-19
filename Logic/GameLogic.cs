@@ -1,6 +1,5 @@
-﻿using DAL.Context.Interfaces;
-using DAL.Repositories;
-using Logic.Interfaces;
+﻿using Logic.Interfaces;
+using Logic.RepositoryInterfaces;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -11,33 +10,25 @@ namespace Logic
 {
     public class GameLogic : IGameLogic
     {
-        private readonly GameRepository repository;
+        private readonly IGameReviewRepository reviewRepository;
 
-        public GameLogic(IGameContext context)
+        public GameLogic(IGameReviewRepository reviewRepository)
         {
-            repository = new GameRepository(context);
+            this.reviewRepository = reviewRepository;
+        }
+        public bool AddReview(Review review)
+        {
+            return reviewRepository.AddReview(review);
         }
 
-        public Game GetGame(string gameName)
+        public bool DeleteReview(Review review)
         {
-            Game game = new Game(0, null, null);
-            DataSet dataSet = new DataSet();
-            dataSet = repository.GetGame(gameName);
-            foreach (DataRow dataRow in dataSet.Tables[0].Rows)
-            {
-                game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
-            }
-            return game;
+            throw new NotImplementedException();
         }
 
-        public Game AddGame(Game game)
+        public List<Review> GetReviews(Game game)
         {
-            return repository.AddGame(game);
-        }
-
-        public List<Game> SearchGames(string searchTerm)
-        {
-            return repository.SearchGames(searchTerm);
+            return reviewRepository.GetReviews(game);
         }
     }
 }

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Logic.Interfaces
+namespace Logic.RepositoryInterfaces
 {
-    public interface IAdminLogic
+    public interface IAdminGameRepository
     {
         Game AddGame(Game game);
     }

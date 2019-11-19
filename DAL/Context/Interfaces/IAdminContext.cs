@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL.Context.Interfaces
 {
-    interface IAdminContext
+    public interface IAdminContext
     {
     }
 }

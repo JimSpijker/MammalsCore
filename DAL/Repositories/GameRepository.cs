@@ -1,14 +1,15 @@
 ﻿using DAL.Context;
-using DAL.Context.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Models;
+using Logic.RepositoryInterfaces;
+using DAL.Context.Interfaces;
 
 namespace DAL.Repositories
 {
-    public class GameRepository : IGameContext
+    public class GameRepository : IGameContainerGameRepository, IAdminGameRepository
     {
         private readonly IGameContext context;
 
@@ -16,19 +17,35 @@ namespace DAL.Repositories
         {
             this.context = context;
         }
-        public DataSet GetGame(string gameName)
-        {
-            return context.GetGame(gameName);
-        }
 
         public Game AddGame(Game game)
         {
             return context.AddGame(game);
         }
 
-        public List<Game> SearchGames(string searchTerm)
+        public List<Game> GetAllGames()
         {
-            return context.SearchGames(searchTerm);
+            throw new NotImplementedException();
+        }
+
+        public Game GetGame(string gameName)
+        {
+            return context.GetGame(gameName);
+        }
+
+        public List<Game> GetPopulairGames()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Game> GetTopGames()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Game> SearchGames(string searchQuery)
+        {
+            return context.SearchGames(searchQuery);
         }
     }
 }

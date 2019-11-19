@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Context.Interfaces;
 using Logic;
 using Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +11,13 @@ namespace MammalsCore.Controllers
 {
     public class ReviewController : Controller
     {
-        private readonly IGameContext gameContext;
-        private readonly IReviewContext reviewContext;
+        private readonly IGameContainerLogic gameContainerLogic;
+        private readonly IGameLogic gameLogic;
 
-        public ReviewController(IGameContext gameContext, IReviewContext reviewContext)
+        public ReviewController(IGameContainerLogic gameContainerLogic, IGameLogic gameLogic)
         {
-            this.gameContext = gameContext;
-            this.reviewContext = reviewContext;
+            this.gameContainerLogic = gameContainerLogic;
+            this.gameLogic = gameLogic;
         }
         public IActionResult Index(Review review)
         {
@@ -26,19 +25,16 @@ namespace MammalsCore.Controllers
         }
         public IActionResult CreateReview(string gameName)
         {
-            GameLogic gameLogic = new GameLogic(gameContext);
-            Review review = new Review(0, 0, gameLogic.GetGame(gameName), null, 0);
+            Review review = new Review(0, 0, gameContainerLogic.GetGame(gameName), null, 0);
             return View(review);
         }
 
         [HttpPost]
         public IActionResult CreateReview(Review review)
         {
-            ReviewLogic reviewLogic = new ReviewLogic(reviewContext);
-            GameLogic gameLogic = new GameLogic(gameContext);
             review.UserId = 1;
-            review.Game = gameLogic.GetGame(review.Game.Name);
-            if (reviewLogic.AddReview(review))
+            review.Game = gameContainerLogic.GetGame(review.Game.Name);
+            if (gameLogic.AddReview(review))
             {
                 return RedirectToAction("Index", "Game", new {id = review.Game.Name});
             }

@@ -1,5 +1,6 @@
 ﻿using DAL.Context;
 using DAL.Context.Interfaces;
+using Logic.RepositoryInterfaces;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -8,32 +9,21 @@ using System.Text;
 
 namespace DAL.Repositories
 {
-    public class UserRepository : IUserContext
+    public class UserRepository : IUserUserRepository, IUserContainerUserRepository
     {
-        private readonly UserContext context;
-
-        public UserRepository(UserContext context)
+        public User Login(string name, string password)
         {
-            this.context = context;
-        }
-
-        
-
-        public bool ChangePassword(User updatedUser)
-        {
-            return context.ChangePassword(updatedUser);
-        }
-
-        
-
-        public DataSet Login(string name, string password)
-        {
-            return context.Login(name, password);
+            throw new NotImplementedException();
         }
 
         public bool Register(User user)
         {
-            return context.Register(user);
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateUser(User newUser)
+        {
+            throw new NotImplementedException();
         }
     }
 }

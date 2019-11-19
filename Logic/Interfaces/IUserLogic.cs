@@ -5,8 +5,9 @@ using Models;
 
 namespace Logic.Interfaces
 {
-    interface IUserLogic
+    public interface IUserLogic
     {
-        
+        bool UpdateUser(User newUser);
+        List<Review> GetReviews(User user);
     }
 }

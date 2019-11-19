@@ -18,23 +18,27 @@ namespace DAL.Context
         {
             con = new Connection();
         }
-        public DataSet GetGame(string gameName)
+        public Game GetGame(string gameName)
         {
-            DataSet dataSet = new DataSet();
-            
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                        new SqlCommand(
-                            "SELECT * FROM Game WHERE Name = @name", con.SqlConnection)
-                )
+            Game game = new Game();
+
+            con.SqlConnection.Open();
+            using (SqlCommand cmd =
+                    new SqlCommand(
+                        "SELECT * FROM Game WHERE Name = @name", con.SqlConnection)
+            )
+            {
+                cmd.Parameters.Add(new SqlParameter("name", gameName));
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet);
+                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    cmd.Parameters.Add(new SqlParameter("name", gameName));
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-                    dataAdapter.Fill(dataSet);
+                    game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
                 }
-                con.SqlConnection.Close();
-                return dataSet;
-            
+            }
+            con.SqlConnection.Close();
+            return game;
         }
 
         public Game AddGame(Game game)
@@ -53,7 +57,7 @@ namespace DAL.Context
             return game;
         }
 
-        public List<Game> SearchGames(string searchTerm)
+        public List<Game> SearchGames(string searchQuery)
         {
             List<Game> games = new List<Game>();
             con.SqlConnection.Open();
@@ -63,7 +67,7 @@ namespace DAL.Context
                     con.SqlConnection)
             )
             {
-                cmd.Parameters.Add(new SqlParameter("searchTerm", searchTerm));
+                cmd.Parameters.Add(new SqlParameter("searchTerm", searchQuery));
                 SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                 DataSet dataSet = new DataSet();
                 dataAdapter.Fill(dataSet);

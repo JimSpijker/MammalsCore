@@ -8,8 +8,8 @@ namespace DAL.Context.Interfaces
 {
     public interface IGameContext
     {
-        DataSet GetGame(string gameName);
+        Game GetGame(string gameName);
         Game AddGame(Game game);
-        List<Game> SearchGames(string searchTerm);
+        List<Game> SearchGames(string searchQuery);
     }
 }

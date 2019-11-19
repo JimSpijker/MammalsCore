@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DAL.Context
 {
-    class AdminContext : IAdminContext
+    public class AdminContext : IAdminContext
     {
     }
 }

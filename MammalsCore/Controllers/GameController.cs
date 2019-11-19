@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL.Context.Interfaces;
 using Logic;
+using Logic.Interfaces;
 using MammalsCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -12,13 +12,15 @@ namespace MammalsCore.Controllers
 {
     public class GameController : Controller
     {
-        private readonly IGameContext gameContext;
-        private readonly IReviewContext reviewContext;
+        private readonly IGameContainerLogic gameContainerLogic;
+        private readonly IGameLogic gameLogic;
+        private readonly IAdminLogic adminLogic;
 
-        public GameController(IGameContext gameContext, IReviewContext reviewContext)
+        public GameController(IGameContainerLogic gameContainerLogic, IGameLogic gameLogic, IAdminLogic adminLogic)
         {
-            this.gameContext = gameContext;
-            this.reviewContext = reviewContext;
+            this.gameContainerLogic = gameContainerLogic;
+            this.gameLogic = gameLogic;
+            this.adminLogic = adminLogic;
         }
         public ActionResult Index()
         {
@@ -28,11 +30,9 @@ namespace MammalsCore.Controllers
         [HttpGet]
         public ActionResult Index(string id)
         {
-            GameLogic gameLogic = new GameLogic(gameContext);
-            ReviewLogic reviewLogic = new ReviewLogic(reviewContext);
             Game game = new Game();
-            game = gameLogic.GetGame(id);
-            game.Reviews = reviewLogic.GetReviews(game);
+            game = gameContainerLogic.GetGame(id);
+            game.Reviews = gameLogic.GetReviews(game);
             int n = 0;
             if (game.Reviews.Count != 0)
             {
@@ -54,8 +54,7 @@ namespace MammalsCore.Controllers
         [HttpPost]
         public IActionResult Create(Game game)
         {
-            GameLogic gameLogic = new GameLogic(gameContext);
-            if (gameLogic.AddGame(game) != null)
+            if (adminLogic.AddGame(game) != null)
             {
                 return RedirectToAction("Index", new {id = game.Name});
             }
@@ -68,8 +67,7 @@ namespace MammalsCore.Controllers
         [HttpPost]
         public IActionResult Search(string id)
         {
-            GameLogic gameLogic = new GameLogic(gameContext);
-            return View(gameLogic.SearchGames(id));
+            return View(gameContainerLogic.SearchGames(id));
         }
 
 

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DAL.Context.Interfaces
 {
-    interface IUserContext
+    public interface IUserContext
     {
         bool Register(User user);
         DataSet Login(string name, string password);

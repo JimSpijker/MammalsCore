@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Logic.Interfaces
 {
-    public interface IAdminLogic
+    public interface IUserContainerLogic
     {
-        Game AddGame(Game game);
+        bool Register(User user);
+        User Login(string name, string password);
     }
 }

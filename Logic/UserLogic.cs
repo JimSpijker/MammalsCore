@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DAL.Context;
-using DAL.Context.Interfaces;
-using DAL.Repositories;
 using Logic.Interfaces;
+using Logic.RepositoryInterfaces;
 using Models;
 
 namespace Logic
 {
-    class UserLogic : IUserLogic
+    public class UserLogic : IUserLogic
     {
-        private readonly UserRepository repository;
+        private readonly IUserReviewRepository reviewRepository;
+        private readonly IUserUserRepository userRepository;
 
-        public UserLogic(UserContext context)
+        public UserLogic(IUserReviewRepository reviewRepository, IUserUserRepository userRepository)
         {
-            repository = new UserRepository(context);
+            this.reviewRepository = reviewRepository;
+            this.userRepository = userRepository;
         }
-        
+        public List<Review> GetReviews(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateUser(User newUser)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

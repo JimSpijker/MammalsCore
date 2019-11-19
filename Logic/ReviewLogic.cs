@@ -1,30 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DAL.Context;
-using DAL.Context.Interfaces;
-using DAL.Repositories;
 using Logic.Interfaces;
+using Logic.RepositoryInterfaces;
 using Models;
 
 namespace Logic
 {
     public class ReviewLogic : IReviewLogic
     {
-        private readonly ReviewRepository repository;
+        private readonly IReviewReviewRepository reviewRepository;
 
-        public ReviewLogic(IReviewContext context)
+        public ReviewLogic(IReviewReviewRepository reviewRepository)
         {
-            repository = new ReviewRepository(context);
+            this.reviewRepository = reviewRepository;
         }
-        public bool AddReview(Review review)
+        public void UpdateReview(Review oldReview, Review newReview)
         {
-            return repository.AddReview(review);
-        }
-
-        public List<Review> GetReviews(Game game)
-        {
-            return repository.GetReviews(game);
+            throw new NotImplementedException();
         }
     }
 }

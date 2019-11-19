@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Models;
 
-namespace Logic.Interfaces
+namespace Logic.RepositoryInterfaces
 {
-    public interface IReviewLogic
+    public interface IReviewReviewRepository
     {
         void UpdateReview(Review oldReview, Review newReview);
     }
