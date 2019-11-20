@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Mammals</title>
 
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -31,8 +31,8 @@
                 </li>
             </ul>
             <form asp-action="Search" asp-controller="Game" class="form-inline my-2 my-lg-0">
+                @ViewBag.error
                 <input name="id" class="form-control mr-sm-2" type="text" placeholder="Search">
-                <span></span>
                 <div class="form-group">
                     <input type="submit" value="Search" class="btn btn-primary" />
                 </div>
@@ -74,3 +74,7 @@
 
 </body>
 </html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

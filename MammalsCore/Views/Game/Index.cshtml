@@ -17,7 +17,7 @@
 
 
 <div>
-    <button onclick="@("window.location.href='"+ @Url.Action("CreateReview", "Review", new {gameName = Model.Name }) + "'");" type="button" class="btn btn-primary">Write a review</button>
+    <button onclick="@("window.location.href='"+ @Url.Action("Create", "Review", new {gameName = Model.Name }) + "'");" type="button" class="btn btn-primary">Write a review</button>
 </div>
 
 @foreach (Review review in Model.Reviews)

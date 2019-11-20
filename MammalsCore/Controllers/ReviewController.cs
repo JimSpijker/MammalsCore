@@ -23,14 +23,14 @@ namespace MammalsCore.Controllers
         {
             return View(review);
         }
-        public IActionResult CreateReview(string gameName)
+        public IActionResult Create(string gameName)
         {
             Review review = new Review(0, 0, gameContainerLogic.GetGame(gameName), null, 0);
             return View(review);
         }
 
         [HttpPost]
-        public IActionResult CreateReview(Review review)
+        public IActionResult Create(Review review)
         {
             review.UserId = 1;
             review.Game = gameContainerLogic.GetGame(review.Game.Name);
