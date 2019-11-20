@@ -6,54 +6,24 @@ namespace Models
 {
     public class Review
     {
-        public int Id
-        {
-            get => id;
-            set => id = value;
-        }
+        //Properties
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public Game Game { get; set; }
+        public string Description { get; set; }
+        public int Score { get; set; }
 
-        public int UserId
-        {
-            get => userId;
-            set => userId = value;
-        }
-
-        public Game Game
-        {
-            get => game;
-            set => game = value;
-        }
-
-        public string Description
-        {
-            get => description;
-            set => description = value;
-        }
-
-        public int Score
-        {
-            get => score;
-            set => score = value;
-        }
-
-        private int id;
-        private int userId;
-        private Game game;
-        private string description;
-        private int score;
-
+        //Constructors
         public Review(int id, int userId, Game game, string description, int score)
         {
-            this.id = id;
-            this.userId = userId;
-            this.game = game;
-            this.description = description;
-            this.score = score;
+            this.Id = id;
+            this.UserId = userId;
+            this.Game = game;
+            this.Description = description;
+            this.Score = score;
         }
 
-        public Review()
-        {
-        }
+        public Review(){}
 
     }
 }

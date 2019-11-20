@@ -6,22 +6,19 @@ namespace Models
 {
     public class User
     {
-        private int id;
-        private string name;
-        private string email;
-        private string password;
+        //Properties
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
+        //Constructors
         public User(int id, string name, string email, string password)
         {
-            this.id = id;
-            this.name = name;
-            this.email = email;
-            this.password = password;
+            this.Id = id;
+            this.Name = name;
+            this.Email = email;
+            this.Password = password;
         }
-
-        public int Id { get => id; set => id = value; }
-        public string Name { get => name; set => name = value; }
-        public string Email { get => email; set => email = value; }
-        public string Password { get => password; set => password = value; }
     }
 }

@@ -6,44 +6,21 @@ namespace Models
 {
     public class Game
     {
-        public Game(int id, string name, string description, List<Review> reviews)
-        {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.reviews = reviews;
-        }
+        //Properties
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<Review> Reviews { get; set; }
+        public int Score { get; set; }
 
-        private int id;
-        private string name;
-        private string description;
-        private List<Review> reviews;
-        private int score;
-
-        public int Score
-        {
-            get => score;
-            set => score = value;
-        }
-
-        public List<Review> Reviews
-        {
-            get => reviews;
-            set => reviews = value;
-        }
-
+        //Constructors
         public Game(int id, string name, string description)
         {
-            this.id = id;
-            this.name = name;
-            this.description = description;
+            Id = id;
+            Name = name;
+            Description = description;
         }
 
-
         public Game() { }
-
-        public int Id { get => id; set => id = value; }
-        public string Name { get => name; set => name = value; }
-        public string Description { get => description; set => description = value; }
     }
 }
