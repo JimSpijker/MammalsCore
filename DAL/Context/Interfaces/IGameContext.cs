@@ -9,7 +9,9 @@ namespace DAL.Context.Interfaces
     public interface IGameContext
     {
         Game GetGame(string gameName);
-        Game AddGame(Game game);
+        bool AddGame(Game game);
         List<Game> SearchGames(string searchQuery);
+        bool GameAlreadyExists(string gameName);
+        List<Game> GetAllGames();
     }
 }

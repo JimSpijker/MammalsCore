@@ -18,14 +18,19 @@ namespace DAL.Repositories
             this.context = context;
         }
 
-        public Game AddGame(Game game)
+        public bool AddGame(Game game)
         {
             return context.AddGame(game);
         }
 
+        public bool GameAlreadyExists(string gameName)
+        {
+            return context.GameAlreadyExists(gameName);
+        }
+
         public List<Game> GetAllGames()
         {
-            throw new NotImplementedException();
+            return context.GetAllGames();
         }
 
         public Game GetGame(string gameName)

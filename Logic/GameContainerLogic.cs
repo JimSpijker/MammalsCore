@@ -17,7 +17,7 @@ namespace Logic
         }
         public List<Game> GetAllGames()
         {
-            throw new NotImplementedException();
+            return gameRepository.GetAllGames();
         }
 
         public Game GetGame(string gameName)
@@ -37,6 +37,10 @@ namespace Logic
 
         public List<Game> SearchGames(string searchTerm)
         {
+            if (searchTerm == null)
+            {
+                return new List<Game>();
+            }
             return gameRepository.SearchGames(searchTerm);
         }
     }

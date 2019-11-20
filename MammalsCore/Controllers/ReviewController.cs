@@ -23,6 +23,7 @@ namespace MammalsCore.Controllers
         {
             return View(review);
         }
+
         public IActionResult Create(string gameName)
         {
             Review review = new Review(0, 0, gameContainerLogic.GetGame(gameName), null, 0);
@@ -40,7 +41,8 @@ namespace MammalsCore.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                ViewBag.ReviewExistsError = "You already reviewed this Game";
+                return View(review);
             }
         }
     }

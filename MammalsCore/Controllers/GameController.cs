@@ -33,6 +33,10 @@ namespace MammalsCore.Controllers
             Game game = new Game();
             game = gameContainerLogic.GetGame(id);
             game.Reviews = gameLogic.GetReviews(game);
+            if (gameLogic.ReviewExists(new Review(){ UserId = 1, Game = game }))
+            {
+                ViewBag.ReviewExists = "true";
+            }
             int n = 0;
             if (game.Reviews.Count != 0)
             {
@@ -54,13 +58,14 @@ namespace MammalsCore.Controllers
         [HttpPost]
         public IActionResult Create(Game game)
         {
-            if (adminLogic.AddGame(game) != null)
+            if (adminLogic.AddGame(game))
             {
                 return RedirectToAction("Index", new {id = game.Name});
             }
             else
             {
-                return RedirectToAction("Index");
+                ViewBag.gameNameError = "Game already exists";
+                return View(game);
             }
         }
 

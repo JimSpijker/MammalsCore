@@ -7,6 +7,7 @@ namespace Logic.Interfaces
 {
     public interface IAdminLogic
     {
-        Game AddGame(Game game);
+        bool AddGame(Game game);
+        bool GameAlreadyExists(string gameName);
     }
 }

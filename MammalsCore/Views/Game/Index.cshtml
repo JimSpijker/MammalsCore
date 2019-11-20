@@ -15,10 +15,13 @@
     <h4>Overall score: @Model.Score</h4>
     <hr />
 
+@if (ViewBag.ReviewExists != "true")
+{
+    <div>
+        <button onclick="@("window.location.href='"+ @Url.Action("Create", "Review", new {gameName = Model.Name }) + "'");" type="button" class="btn btn-primary">Write a review</button>
+    </div>
+}
 
-<div>
-    <button onclick="@("window.location.href='"+ @Url.Action("Create", "Review", new {gameName = Model.Name }) + "'");" type="button" class="btn btn-primary">Write a review</button>
-</div>
 
 @foreach (Review review in Model.Reviews)
 {

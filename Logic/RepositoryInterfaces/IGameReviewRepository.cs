@@ -10,5 +10,6 @@ namespace Logic.RepositoryInterfaces
         bool AddReview(Review review);
         bool DeleteReview(Review review);
         List<Review> GetReviews(Game game);
+        bool ReviewExists(Review review);
     }
 }

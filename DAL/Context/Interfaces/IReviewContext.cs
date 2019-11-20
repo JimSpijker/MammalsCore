@@ -12,6 +12,7 @@ namespace DAL.Context.Interfaces
         List<Review> GetReviews(Game game);
         bool AddReview(Review review);
         bool DeleteReview(Review review);
+        bool ReviewExists(Review review);
 
     }
 }

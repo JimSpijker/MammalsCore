@@ -18,6 +18,10 @@ namespace Logic
         }
         public bool AddReview(Review review)
         {
+            if (ReviewExists(review))
+            {
+                return false;
+            }
             return reviewRepository.AddReview(review);
         }
 
@@ -29,6 +33,11 @@ namespace Logic
         public List<Review> GetReviews(Game game)
         {
             return reviewRepository.GetReviews(game);
+        }
+
+        public bool ReviewExists(Review review)
+        {
+            return reviewRepository.ReviewExists(review);
         }
     }
 }

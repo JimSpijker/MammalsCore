@@ -15,9 +15,18 @@ namespace Logic
         {
             this.gameRepository = gameRepository;
         }
-        public Game AddGame(Game game)
+        public bool AddGame(Game game)
         {
+            if (gameRepository.GameAlreadyExists(game.Name))
+            {
+                return false;
+            }
             return gameRepository.AddGame(game);
+        }
+
+        public bool GameAlreadyExists(string gameName)
+        {
+            return gameRepository.GameAlreadyExists(gameName);
         }
     }
 }

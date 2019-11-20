@@ -12,5 +12,6 @@ namespace Logic.Interfaces
         List<Game> GetPopulairGames();
         List<Game> GetAllGames();
         List<Game> GetTopGames();
+
     }
 }

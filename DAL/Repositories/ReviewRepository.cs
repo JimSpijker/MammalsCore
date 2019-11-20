@@ -37,6 +37,11 @@ namespace DAL.Repositories
             throw new NotImplementedException();
         }
 
+        public bool ReviewExists(Review review)
+        {
+            return context.ReviewExists(review);
+        }
+
         public void UpdateReview(Review oldReview, Review newReview)
         {
             throw new NotImplementedException();
