@@ -23,6 +23,11 @@ namespace Models
             Name = name;
             Description = description;
         }
+        public Game(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
 
         public Game() { }
     }

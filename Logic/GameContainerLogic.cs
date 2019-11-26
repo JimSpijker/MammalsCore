@@ -25,6 +25,11 @@ namespace Logic
             return gameRepository.GetGame(gameName);
         }
 
+        public List<Game> GetNewGames(int amount)
+        {
+            return gameRepository.GetNewGames(amount);
+        }
+
         public List<Game> GetPopulairGames()
         {
             throw new NotImplementedException();

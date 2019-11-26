@@ -27,6 +27,14 @@ namespace Models
             this.Score = score;
         }
 
+        public Review(int userId, Game game, string description, int score)
+        {
+            this.UserId = userId;
+            this.Game = game;
+            this.Description = description;
+            this.Score = score;
+        }
+
         public Review(){}
 
     }

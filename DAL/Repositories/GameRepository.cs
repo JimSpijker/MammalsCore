@@ -23,6 +23,11 @@ namespace DAL.Repositories
             return context.AddGame(game);
         }
 
+        public void DeleteGame(Game game)
+        {
+            context.DeleteGame(game);
+        }
+
         public bool GameAlreadyExists(string gameName)
         {
             return context.GameAlreadyExists(gameName);
@@ -36,6 +41,11 @@ namespace DAL.Repositories
         public Game GetGame(string gameName)
         {
             return context.GetGame(gameName);
+        }
+
+        public List<Game> GetNewGames(int amount)
+        {
+            return context.GetNewGames(amount);
         }
 
         public List<Game> GetPopulairGames()

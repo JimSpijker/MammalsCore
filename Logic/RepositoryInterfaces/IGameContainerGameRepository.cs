@@ -12,5 +12,6 @@ namespace Logic.RepositoryInterfaces
         List<Game> GetPopulairGames();
         List<Game> GetAllGames();
         List<Game> GetTopGames();
+        List<Game> GetNewGames(int amount);
     }
 }

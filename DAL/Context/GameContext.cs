@@ -53,12 +53,12 @@ namespace DAL.Context
                 con.SqlConnection.Open();
                 using (SqlCommand cmd =
                     new SqlCommand(
-                        "INSERT INTO Game (Name, Description) VALUES(@name, @description) SELECT SCOPE_IDENTITY()", con.SqlConnection)
+                        "INSERT INTO Game (Name, Description) VALUES(@name, @description)", con.SqlConnection)
                 )
                 {
                     cmd.Parameters.Add(new SqlParameter("name", game.Name));
                     cmd.Parameters.Add(new SqlParameter("description", game.Description));
-                    game.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                    cmd.ExecuteNonQuery();
                 }
                 con.SqlConnection.Close();
             }
@@ -158,6 +158,58 @@ namespace DAL.Context
                 throw new Exception("Database Error");
             }
             return games;
+        }
+
+        public List<Game> GetNewGames(int amount)
+        {
+            List<Game> games = new List<Game>();
+            try
+            {
+                con.SqlConnection.Open();
+                using (SqlCommand cmd =
+                    new SqlCommand(
+                        "SELECT TOP (@amount) * FROM Game ORDER BY DateAdded Desc",
+                        con.SqlConnection)
+                )
+                {
+                    cmd.Parameters.Add(new SqlParameter("amount", amount));
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                    DataSet dataSet = new DataSet();
+                    dataAdapter.Fill(dataSet);
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        Game game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
+                        games.Add(game);
+                    }
+                    con.SqlConnection.Close();
+                }
+            }
+            catch
+            {
+                throw new Exception("Database Error");
+            }
+            return games;
+        }
+
+        public void DeleteGame(Game game)
+        {
+            try
+            {
+                con.SqlConnection.Open();
+                using (SqlCommand cmd =
+                    new SqlCommand(
+                        "DELETE FROM Game WHERE Name = @name", con.SqlConnection)
+                )
+                {
+                    cmd.Parameters.Add(new SqlParameter("name", game.Name));
+                    cmd.ExecuteNonQuery();
+                }
+                con.SqlConnection.Close();
+            }
+            catch
+            {
+                throw new Exception("DatabaseError");
+            }
         }
     }
 }

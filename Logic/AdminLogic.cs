@@ -24,6 +24,11 @@ namespace Logic
             return gameRepository.AddGame(game);
         }
 
+        public void DeleteGame(Game game)
+        {
+            gameRepository.DeleteGame(game);
+        }
+
         public bool GameAlreadyExists(string gameName)
         {
             return gameRepository.GameAlreadyExists(gameName);

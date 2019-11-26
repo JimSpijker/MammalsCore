@@ -8,6 +8,7 @@ namespace Logic.RepositoryInterfaces
     public interface IAdminGameRepository
     {
         bool AddGame(Game game);
+        void DeleteGame(Game game);
         bool GameAlreadyExists(string gameName);
     }
 }

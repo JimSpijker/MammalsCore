@@ -10,8 +10,10 @@ namespace DAL.Context.Interfaces
     {
         Game GetGame(string gameName);
         bool AddGame(Game game);
+        void DeleteGame(Game game);
         List<Game> SearchGames(string searchQuery);
         bool GameAlreadyExists(string gameName);
         List<Game> GetAllGames();
+        List<Game> GetNewGames(int amount);
     }
 }

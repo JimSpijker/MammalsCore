@@ -19,7 +19,7 @@ namespace MammalsCore.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return View(gameContainerLogic.GetNewGames(5));
         }
 
         public IActionResult AZ()
