@@ -27,6 +27,12 @@ namespace MammalsCore.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">Name of the game</param>
+        /// <returns></returns>
+
         [HttpGet]
         public ActionResult Index(string id)
         {
@@ -37,15 +43,15 @@ namespace MammalsCore.Controllers
             {
                 ViewBag.ReviewExists = "true";
             }
-            int n = 0;
+            int totalScore = 0;
             if (game.Reviews.Count != 0)
             {
                 foreach (Review review in game.Reviews)
                 {
-                    n += review.Score;
+                    totalScore += review.Score;
                 }
 
-                game.Score = Convert.ToInt32(n / game.Reviews.Count);
+                game.Score = Convert.ToInt32(totalScore / game.Reviews.Count);
             }
             return View(game);
         }
@@ -69,6 +75,11 @@ namespace MammalsCore.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">Search query</param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Search(string id)
         {
