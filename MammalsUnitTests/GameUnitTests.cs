@@ -30,24 +30,38 @@ namespace MammalsUnitTests
         [TestMethod]
         public void AddReview_Succes()
         {
+            bool result;
             adminLogic.AddGame(game);
-            bool result = gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            adminLogic.DeleteGame(game);
+            try
+            {
+                result = gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(true, result);
         }
 
         [TestMethod]
         public void AddReview_ReviewExists()
         {
+            bool result;
             adminLogic.AddGame(game);
-            gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            bool result = gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            adminLogic.DeleteGame(game);
+            try
+            {
+                gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+                result = gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(false, result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void AddReview_EmptyReview()
         {
             bool result = gameLogic.AddReview(new Review(0, null, null, 0));
@@ -58,25 +72,39 @@ namespace MammalsUnitTests
         [TestMethod]
         public void ReviewExists_True()
         {
+            bool result;
             adminLogic.AddGame(game);
-            gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            bool result = gameLogic.ReviewExists(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            adminLogic.DeleteGame(game);
+            try
+            {
+                gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+                result = gameLogic.ReviewExists(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(true, result);
         }
 
         [TestMethod]
         public void ReviewExists_False()
         {
+            bool result;
             adminLogic.AddGame(game);
-            gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            bool result = gameLogic.ReviewExists(new Review(2, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            adminLogic.DeleteGame(game);
+            try
+            {
+                gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+                result = gameLogic.ReviewExists(new Review(2, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(false, result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void ReviewExists_EmptyReview()
         {
             bool result = gameLogic.ReviewExists(new Review(0, null, null, 0));
@@ -87,30 +115,51 @@ namespace MammalsUnitTests
         [TestMethod]
         public void GetReviews_OneReview()
         {
+            int result;
             adminLogic.AddGame(game);
-            gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            int result = gameLogic.GetReviews(gameContainerLogic.GetGame(game.Name)).Count;
-            adminLogic.DeleteGame(game);
+            try
+            {
+                gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+                result = gameLogic.GetReviews(gameContainerLogic.GetGame(game.Name)).Count;
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
         public void GetReviews_MultipleReviews()
         {
+            int result;
             adminLogic.AddGame(game);
-            gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            gameLogic.AddReview(new Review(2, gameContainerLogic.GetGame(game.Name), "Review1", 1));
-            int result = gameLogic.GetReviews(gameContainerLogic.GetGame(game.Name)).Count;
-            adminLogic.DeleteGame(game);
+            try
+            {
+                gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+                gameLogic.AddReview(new Review(2, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+                result = gameLogic.GetReviews(gameContainerLogic.GetGame(game.Name)).Count;
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
         public void GetReviews_NoReviews()
         {
+            int result;
             adminLogic.AddGame(game);
-            int result = gameLogic.GetReviews(gameContainerLogic.GetGame(game.Name)).Count;
-            adminLogic.DeleteGame(game);
+            try
+            {
+                result = gameLogic.GetReviews(gameContainerLogic.GetGame(game.Name)).Count;
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(0, result);
         }
 
@@ -122,7 +171,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void GetReviews_NullGame()
         {
             gameLogic.GetReviews(null);

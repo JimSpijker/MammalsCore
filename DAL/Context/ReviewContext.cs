@@ -36,7 +36,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("DatabaseError");
+                throw new Exception("Had trouble connecting to server");
             }
             finally
             {
@@ -77,7 +77,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("DatabaseError");
+                throw new Exception("Had trouble connecting to server");
             }
             finally
             {
@@ -105,7 +105,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("DatabaseError");
+                throw new Exception("Had trouble connecting to server");
             }
             finally
             {
@@ -129,7 +129,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("DatabaseError");
+                throw new Exception("Had trouble connecting to server");
             }
             finally
             {
@@ -162,7 +162,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("DatabaseError");
+                throw new Exception("Had trouble connecting to server");
             }
             finally
             {

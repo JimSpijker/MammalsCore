@@ -56,9 +56,16 @@ namespace MammalsUnitTests
         [TestMethod]
         public void GetAllGames_Succes()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.GetAllGames().Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetAllGames().Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(result, games.Count);
         }
 
@@ -67,37 +74,65 @@ namespace MammalsUnitTests
         [TestMethod]
         public void GetGame_Succes()
         {
+            string result;
             AddGames();
-            string result = gameContainerLogic.GetGame(game1.Name).Name;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetGame(game1.Name).Name;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(result, game1.Name);
         }
 
         [TestMethod]
         public void GetGame_Misspelling()
         {
+            string result;
             AddGames();
-            string result = gameContainerLogic.GetGame("Misspelled").Name;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetGame("Misspelled").Name;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreNotEqual(result, game1.Name);
         }
 
         [TestMethod]
         public void GetGame_EmptyString()
         {
+            string result;
             AddGames();
-            string result = gameContainerLogic.GetGame("").Name;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetGame("").Name;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreNotEqual(result, game1.Name);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void GetGame_NullString()
         {
+            string result;
             AddGames();
-            string result = gameContainerLogic.GetGame(null).Name;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetGame(null).Name;
+            }
+            finally
+            {
+                DeleteGames();
+            }
         }
 
         //GetNewGames
@@ -105,37 +140,64 @@ namespace MammalsUnitTests
         [TestMethod]
         public void GetNewGames_Succes()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.GetNewGames(5).Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetNewGames(5).Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(5, result);
         }
 
         [TestMethod]
         public void GetNewGames_LessThanGivenNumber()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.GetNewGames(7).Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetNewGames(7).Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(games.Count, result);
         }
 
         [TestMethod]
         public void GetNewGames_Zero()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.GetNewGames(0).Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.GetNewGames(0).Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void GetNewGames_NegativeNumber()
         {
             AddGames();
-            int result = gameContainerLogic.GetNewGames(-1).Count;
-            DeleteGames();
+            try
+            {
+                int result = gameContainerLogic.GetNewGames(-1).Count;
+            }
+            finally
+            {
+                DeleteGames();
+            } 
         }
 
         //SearchGames
@@ -143,45 +205,80 @@ namespace MammalsUnitTests
         [TestMethod]
         public void SearchGames_OneResult()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.SearchGames(game1.Name).Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.SearchGames(game1.Name).Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(1, result);
         }
 
         [TestMethod]
         public void SearchGames_MultipleResults()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.SearchGames("Test").Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.SearchGames("Test").Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(games.Count, result);
         }
 
         [TestMethod]
         public void SearchGames_NoResults()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.SearchGames("NonExistingGame").Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.SearchGames("NonExistingGame").Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
         public void SearchGames_EmptyString()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.SearchGames("").Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.SearchGames("").Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(games.Count, result);
         }
 
         [TestMethod]
         public void SearchGames_NullString()
         {
+            int result;
             AddGames();
-            int result = gameContainerLogic.SearchGames(null).Count;
-            DeleteGames();
+            try
+            {
+                result = gameContainerLogic.SearchGames(null).Count;
+            }
+            finally
+            {
+                DeleteGames();
+            }
             Assert.AreEqual(0, result);
         }
     }

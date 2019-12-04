@@ -28,22 +28,36 @@ namespace MammalsUnitTests
         [TestMethod]
         public void AddGame_Succes()
         {
-            bool result = adminLogic.AddGame(game);
-            adminLogic.DeleteGame(game);
+            bool result;
+            try
+            {
+                result = adminLogic.AddGame(game);
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(true, result);
         }
 
         [TestMethod]
         public void AddGame_GameExists()
         {
+            bool result;
             adminLogic.AddGame(game);
-            bool result = adminLogic.AddGame(game);
-            adminLogic.DeleteGame(game);
+            try
+            {
+                result = adminLogic.AddGame(game);
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(false, result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void AddGame_EmptyGame()
         {
             Game emptyGame = new Game(null, null);
@@ -55,9 +69,16 @@ namespace MammalsUnitTests
         [TestMethod]
         public void GameAlreadyExists_Succes_True()
         {
+            bool result;
             adminLogic.AddGame(game);
-            bool result = adminLogic.GameAlreadyExists(game.Name);
-            adminLogic.DeleteGame(game);
+            try
+            {
+                result = adminLogic.GameAlreadyExists(game.Name);
+            }
+            finally
+            {
+                adminLogic.DeleteGame(game);
+            }
             Assert.AreEqual(true, result);
         }
 
@@ -76,7 +97,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void GameAlreadyExists_NullString()
         {
             bool result = adminLogic.GameAlreadyExists(null);
@@ -94,7 +115,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "DatabaseError")]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void DeleteGame_EmptyGame()
         {
             adminLogic.DeleteGame(new Game(null, null));
