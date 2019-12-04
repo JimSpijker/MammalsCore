@@ -21,27 +21,32 @@ namespace DAL.Context
         public Game GetGame(string gameName)
         {
             Game game = new Game();
-            try { 
-            con.SqlConnection.Open();
-            using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT * FROM Game WHERE Name = @name", con.SqlConnection)
-            )
+            try
             {
-                cmd.Parameters.Add(new SqlParameter("name", gameName));
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-                DataSet dataSet = new DataSet();
-                dataAdapter.Fill(dataSet);
-                foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                con.SqlConnection.Open();
+                using (SqlCommand cmd =
+                        new SqlCommand(
+                            "SELECT * FROM Game WHERE Name = @name", con.SqlConnection)
+                )
                 {
-                    game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
+                    cmd.Parameters.Add(new SqlParameter("name", gameName));
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                    DataSet dataSet = new DataSet();
+                    dataAdapter.Fill(dataSet);
+                    foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+                    {
+                        game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
+                    }
                 }
-            }
-            con.SqlConnection.Close();
+
             }
             catch
             {
                 throw new Exception("DatabaseError");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return game;
         }
@@ -60,11 +65,14 @@ namespace DAL.Context
                     cmd.Parameters.Add(new SqlParameter("description", game.Description));
                     cmd.ExecuteNonQuery();
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return true;
         }
@@ -90,15 +98,18 @@ namespace DAL.Context
                         Game game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
                         games.Add(game);
                     }
-                    con.SqlConnection.Close();
                 }
             }
             catch
             {
                 throw new Exception("Database Error");
             }
-                return games;
-            
+            finally
+            {
+                con.SqlConnection.Close();
+            }
+            return games;
+
         }
 
         public bool GameAlreadyExists(string gameName)
@@ -121,11 +132,14 @@ namespace DAL.Context
                         return true;
                     }
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return false;
         }
@@ -150,12 +164,15 @@ namespace DAL.Context
                         Game game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
                         games.Add(game);
                     }
-                    con.SqlConnection.Close();
                 }
             }
             catch
             {
                 throw new Exception("Database Error");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return games;
         }
@@ -181,12 +198,15 @@ namespace DAL.Context
                         Game game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
                         games.Add(game);
                     }
-                    con.SqlConnection.Close();
                 }
             }
             catch
             {
                 throw new Exception("Database Error");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return games;
         }
@@ -204,11 +224,14 @@ namespace DAL.Context
                     cmd.Parameters.Add(new SqlParameter("name", game.Name));
                     cmd.ExecuteNonQuery();
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
         }
     }

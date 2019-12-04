@@ -33,11 +33,14 @@ namespace DAL.Context
                     cmd.Parameters.Add(new SqlParameter("score", changedReview.Score));
                     cmd.Parameters.Add(new SqlParameter("reviewId", changedReview.Id));
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return true;
                 
@@ -71,13 +74,16 @@ namespace DAL.Context
                         reviews.Add(review);
                     } 
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
             }
-                return reviews;
+            finally
+            {
+                con.SqlConnection.Close();
+            }
+            return reviews;
         }
 
         public bool AddReview(Review review)
@@ -96,11 +102,14 @@ namespace DAL.Context
                     cmd.Parameters.Add(new SqlParameter("score", review.Score));
                     cmd.ExecuteNonQuery();
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return true;
 
@@ -117,14 +126,16 @@ namespace DAL.Context
                 {
                     cmd.Parameters.Add(new SqlParameter("reviewId", review.Id));
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
             }
+            finally
+            {
+                con.SqlConnection.Close();
+            }
             return true;
-
         }
 
         public bool ReviewExists(Review review)
@@ -148,11 +159,14 @@ namespace DAL.Context
                         return true;
                     }
                 }
-                con.SqlConnection.Close();
             }
             catch
             {
                 throw new Exception("DatabaseError");
+            }
+            finally
+            {
+                con.SqlConnection.Close();
             }
             return false;
         }

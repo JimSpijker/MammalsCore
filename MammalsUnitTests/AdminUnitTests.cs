@@ -99,9 +99,5 @@ namespace MammalsUnitTests
         {
             adminLogic.DeleteGame(new Game(null, null));
         }
-
-
-
-
     }
 }
