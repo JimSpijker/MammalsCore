@@ -17,7 +17,7 @@ namespace Logic
         }
         public bool AddGame(Game game)
         {
-            if (gameRepository.GameAlreadyExists(game.Name))
+            if (gameRepository.GameExists(game.Name))
             {
                 return false;
             }
@@ -31,7 +31,7 @@ namespace Logic
 
         public bool GameAlreadyExists(string gameName)
         {
-            return gameRepository.GameAlreadyExists(gameName);
+            return gameRepository.GameExists(gameName);
         }
     }
 }

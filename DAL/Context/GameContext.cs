@@ -12,23 +12,21 @@ namespace DAL.Context
     public class GameContext : IGameContext
     {
 
-        private readonly Connection con;
+        private readonly Connection connection;
 
         public GameContext()
         {
-            con = new Connection();
+            connection = new Connection();
         }
         public Game GetGame(string gameName)
         {
             Game game = new Game();
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                        new SqlCommand(
-                            "SELECT * FROM Game WHERE Name = @name", con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Game WHERE Name = @name", con);
                     cmd.Parameters.Add(new SqlParameter("name", gameName));
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                     DataSet dataSet = new DataSet();
@@ -38,15 +36,10 @@ namespace DAL.Context
                         game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
                     }
                 }
-
             }
             catch
             {
                 throw new Exception("Had trouble connecting to server");
-            }
-            finally
-            {
-                con.SqlConnection.Close();
             }
             return game;
         }
@@ -55,12 +48,10 @@ namespace DAL.Context
         {
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "INSERT INTO Game (Name, Description) VALUES(@name, @description)", con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Game (Name, Description) VALUES(@name, @description)", con);
                     cmd.Parameters.Add(new SqlParameter("name", game.Name));
                     cmd.Parameters.Add(new SqlParameter("description", game.Description));
                     cmd.ExecuteNonQuery();
@@ -70,10 +61,6 @@ namespace DAL.Context
             {
                 throw new Exception("Had trouble connecting to server");
             }
-            finally
-            {
-                con.SqlConnection.Close();
-            }
             return true;
         }
 
@@ -82,13 +69,10 @@ namespace DAL.Context
             List<Game> games = new List<Game>();
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT * FROM Game WHERE Name LIKE '%'+@searchTerm+'%'",
-                        con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Game WHERE Name LIKE '%'+@searchTerm+'%'", con);
                     cmd.Parameters.Add(new SqlParameter("searchTerm", searchQuery));
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                     DataSet dataSet = new DataSet();
@@ -98,48 +82,39 @@ namespace DAL.Context
                         Game game = new Game(Convert.ToInt32(dataRow["GameId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Description"]));
                         games.Add(game);
                     }
-                }
+                } 
             }
             catch
             {
                 throw new Exception("Had trouble connecting to server");
             }
-            finally
-            {
-                con.SqlConnection.Close();
-            }
             return games;
-
         }
 
         public bool GameAlreadyExists(string gameName)
         {
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT * FROM Game WHERE Name = @name", con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
-                    cmd.Parameters.Add(new SqlParameter("name", gameName));
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-                    DataSet dataSet = new DataSet();
-                    dataAdapter.Fill(dataSet);
-                    if (dataSet.Tables[0].Rows.Count > 0)
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Game WHERE Name = @name", con);
                     {
-                        con.SqlConnection.Close();
-                        return true;
+                        cmd.Parameters.Add(new SqlParameter("name", gameName));
+                        SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                        DataSet dataSet = new DataSet();
+                        dataAdapter.Fill(dataSet);
+                        if (dataSet.Tables[0].Rows.Count > 0)
+                        {
+                            con.Close();
+                            return true;
+                        }
                     }
                 }
             }
             catch
             {
                 throw new Exception("Had trouble connecting to server");
-            }
-            finally
-            {
-                con.SqlConnection.Close();
             }
             return false;
         }
@@ -149,13 +124,10 @@ namespace DAL.Context
             List<Game> games = new List<Game>();
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT * FROM Game ORDER BY Name Asc",
-                        con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Game ORDER BY Name Asc", con);
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                     DataSet dataSet = new DataSet();
                     dataAdapter.Fill(dataSet);
@@ -170,10 +142,6 @@ namespace DAL.Context
             {
                 throw new Exception("Had trouble connecting to server");
             }
-            finally
-            {
-                con.SqlConnection.Close();
-            }
             return games;
         }
 
@@ -182,13 +150,10 @@ namespace DAL.Context
             List<Game> games = new List<Game>();
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT TOP (@amount) * FROM Game ORDER BY DateAdded Desc",
-                        con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT TOP (@amount) * FROM Game ORDER BY DateAdded Desc", con);
                     cmd.Parameters.Add(new SqlParameter("amount", amount));
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                     DataSet dataSet = new DataSet();
@@ -204,10 +169,6 @@ namespace DAL.Context
             {
                 throw new Exception("Had trouble connecting to server");
             }
-            finally
-            {
-                con.SqlConnection.Close();
-            }
             return games;
         }
 
@@ -215,12 +176,10 @@ namespace DAL.Context
         {
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "DELETE FROM Game WHERE Name = @name", con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("DELETE FROM Game WHERE Name = @name", con);
                     cmd.Parameters.Add(new SqlParameter("name", game.Name));
                     cmd.ExecuteNonQuery();
                 }
@@ -228,10 +187,6 @@ namespace DAL.Context
             catch
             {
                 throw new Exception("Had trouble connecting to server");
-            }
-            finally
-            {
-                con.SqlConnection.Close();
             }
         }
     }

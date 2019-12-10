@@ -58,6 +58,14 @@ namespace MammalsUnitTests
 
         [TestMethod]
         [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void AddGame_NullGame()
+        {
+            Game game = new Game(0, null, null);
+            adminLogic.AddGame(game);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
         public void AddGame_EmptyGame()
         {
             Game emptyGame = new Game(null, null);

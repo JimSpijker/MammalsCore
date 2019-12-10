@@ -28,7 +28,7 @@ namespace DAL.Repositories
             context.DeleteGame(game);
         }
 
-        public bool GameAlreadyExists(string gameName)
+        public bool GameExists(string gameName)
         {
             return context.GameAlreadyExists(gameName);
         }

@@ -11,24 +11,21 @@ namespace DAL.Context
 {
     public class ReviewContext : IReviewContext
     {
-        private readonly Connection con;
+        private readonly Connection connection;
 
         public ReviewContext()
         {
-            con = new Connection();
+            connection = new Connection();
         }
 
         public bool UpdateReview(Review changedReview)
         {
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "UPDATE Review SET Description = @description, Score = @score WHERE ReviewId = @reviewId",
-                        con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("UPDATE Review SET Description = @description, Score = @score WHERE ReviewId = @reviewId", con);
                     cmd.Parameters.Add(new SqlParameter("description", changedReview.Description));
                     cmd.Parameters.Add(new SqlParameter("score", changedReview.Score));
                     cmd.Parameters.Add(new SqlParameter("reviewId", changedReview.Id));
@@ -38,13 +35,7 @@ namespace DAL.Context
             {
                 throw new Exception("Had trouble connecting to server");
             }
-            finally
-            {
-                con.SqlConnection.Close();
-            }
             return true;
-                
-
         }
 
         public List<Review> GetReviews(User user)
@@ -57,13 +48,10 @@ namespace DAL.Context
             List<Review> reviews = new List<Review>();
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT * FROM Review WHERE Review.GameId = @gameId",
-                        con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Review WHERE Review.GameId = @gameId", con);
                     cmd.Parameters.Add(new SqlParameter("gameId", game.Id));
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
                     DataSet dataSet = new DataSet();
@@ -72,16 +60,12 @@ namespace DAL.Context
                     {
                         Review review = new Review(Convert.ToInt32(dataRow["ReviewId"]), Convert.ToInt32(dataRow["UserId"]), game, Convert.ToString(dataRow["Description"]), Convert.ToInt32(dataRow["Score"]));
                         reviews.Add(review);
-                    } 
+                    }
                 }
             }
             catch
             {
                 throw new Exception("Had trouble connecting to server");
-            }
-            finally
-            {
-                con.SqlConnection.Close();
             }
             return reviews;
         }
@@ -90,12 +74,10 @@ namespace DAL.Context
         {
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "INSERT INTO Review (UserId, GameId, Description, Score) VALUES(@userId, @gameId, @description, @score)", con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Review (UserId, GameId, Description, Score) VALUES(@userId, @gameId, @description, @score)", con);
                     cmd.Parameters.Add(new SqlParameter("userId", review.UserId));
                     cmd.Parameters.Add(new SqlParameter("gameId", review.Game.Id));
                     cmd.Parameters.Add(new SqlParameter("description", review.Description));
@@ -107,33 +89,23 @@ namespace DAL.Context
             {
                 throw new Exception("Had trouble connecting to server");
             }
-            finally
-            {
-                con.SqlConnection.Close();
-            }
             return true;
-
         }
+
         public bool DeleteReview(Review review)
         {
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "DELETE FROM Review WHERE ReviewId = @reviewId", con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("DELETE FROM Review WHERE ReviewId = @reviewId", con);
                     cmd.Parameters.Add(new SqlParameter("reviewId", review.Id));
                 }
             }
             catch
             {
                 throw new Exception("Had trouble connecting to server");
-            }
-            finally
-            {
-                con.SqlConnection.Close();
             }
             return true;
         }
@@ -142,12 +114,10 @@ namespace DAL.Context
         {
             try
             {
-                con.SqlConnection.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT * FROM Review WHERE UserId = @userId AND GameId = @gameId", con.SqlConnection)
-                )
+                using (SqlConnection con = connection.SqlConnection)
                 {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Review WHERE UserId = @userId AND GameId = @gameId", con);
                     cmd.Parameters.Add(new SqlParameter("userId", review.UserId));
                     cmd.Parameters.Add(new SqlParameter("gameId", review.Game.Id));
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
@@ -155,7 +125,7 @@ namespace DAL.Context
                     dataAdapter.Fill(dataSet);
                     if (dataSet.Tables[0].Rows.Count > 0)
                     {
-                        con.SqlConnection.Close();
+                        con.Close();
                         return true;
                     }
                 }
@@ -163,10 +133,6 @@ namespace DAL.Context
             catch
             {
                 throw new Exception("Had trouble connecting to server");
-            }
-            finally
-            {
-                con.SqlConnection.Close();
             }
             return false;
         }

@@ -9,6 +9,6 @@ namespace Logic.RepositoryInterfaces
     {
         bool AddGame(Game game);
         void DeleteGame(Game game);
-        bool GameAlreadyExists(string gameName);
+        bool GameExists(string gameName);
     }
 }
