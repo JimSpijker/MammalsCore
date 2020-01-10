@@ -56,22 +56,31 @@ namespace MammalsCore.Controllers
             return View(game);
         }
 
-        public ActionResult Create()
+        public ActionResult Create(GameViewModel gameViewModel)
         {
-            return View();
+            return View(gameViewModel);
         }
 
         [HttpPost]
         public IActionResult Create(Game game)
         {
+            GameViewModel gameViewModel = new GameViewModel()
+            {
+                Game = game
+            };
+            if (game.Name == null || game.Name == "" || game.Description == null || game.Description == "")
+            {
+                gameViewModel.ErrorMessage = "Please fill in the required fields";
+                return View();
+            }
             if (adminLogic.AddGame(game))
             {
                 return RedirectToAction("Index", new {id = game.Name});
             }
             else
             {
-                ViewBag.gameNameError = "Game already exists";
-                return View(game);
+                gameViewModel.ErrorMessage = "Game already exists";
+                return View(gameViewModel);
             }
         }
 
@@ -83,6 +92,10 @@ namespace MammalsCore.Controllers
         [HttpPost]
         public IActionResult Search(string id)
         {
+            if (id == null || id == "")
+            {
+                return View(new List<Game>());
+            }
             return View(gameContainerLogic.SearchGames(id));
         }
 
