@@ -22,5 +22,10 @@ namespace MammalsCore.Controllers
             return View(gameContainerLogic.GetNewGames(5));
         }
 
+        public IActionResult AZ()
+        {
+            return View(gameContainerLogic.GetAllGames());
+        }
+
     }
 }
