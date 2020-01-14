@@ -63,6 +63,8 @@ namespace MammalsCore
             services.AddSingleton<IUserContainerLogic, UserContainerLogic>();
             services.AddSingleton<IUserLogic, UserLogic>();
 
+            services.AddSingleton<Connection, Connection>();
+
 
         }
 

@@ -1,4 +1,5 @@
-﻿using DAL.Context;
+﻿using DAL;
+using DAL.Context;
 using DAL.Repositories;
 using Logic;
 using Logic.Interfaces;
@@ -13,14 +14,16 @@ namespace MammalsUnitTests
     [TestClass]
     public class GameUnitTests
     {
+        private readonly string connectionString = @"Server=mssql.fhict.local;Database=dbi409996;User Id = dbi409996; Password=Frikandel1;";
         private readonly IGameLogic gameLogic;
         private readonly IAdminLogic adminLogic;
         private readonly IGameContainerLogic gameContainerLogic;
+        private Connection connection = new Connection();
         public GameUnitTests()
         {
-            gameLogic = new GameLogic(new ReviewRepository(new ReviewContext()));
-            adminLogic = new AdminLogic(new GameRepository(new GameContext()));
-            gameContainerLogic = new GameContainerLogic(new GameRepository(new GameContext()));
+            gameLogic = new GameLogic(new ReviewRepository(new ReviewContext(connection)));
+            adminLogic = new AdminLogic(new GameRepository(new GameContext(connection)));
+            gameContainerLogic = new GameContainerLogic(new GameRepository(new GameContext(connection)));
         }
 
         private Game game = new Game("gameName", "gameDescription");
@@ -61,10 +64,25 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(Exception), "The given review was empty")]
         public void AddReview_EmptyReview()
         {
-            bool result = gameLogic.AddReview(new Review(0, null, null, 0));
+            gameLogic.AddReview(new Review(0, null, null, 0));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void AddReview_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                gameLogic.AddReview(new Review(1, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
 
         //ReviewExists
@@ -104,10 +122,25 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(Exception), "The given review was empty")]
         public void ReviewExists_EmptyReview()
         {
             bool result = gameLogic.ReviewExists(new Review(0, null, null, 0));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void ReviewExists_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                gameLogic.ReviewExists(new Review(2, gameContainerLogic.GetGame(game.Name), "Review1", 1));
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
 
         //GetReviews
@@ -164,6 +197,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
         public void GetReviews_EmptyGame()
         {
             int result = gameLogic.GetReviews(new Game(0, null, null)).Count;
@@ -171,10 +205,25 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
         public void GetReviews_NullGame()
         {
             gameLogic.GetReviews(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void GetReviews_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                gameLogic.GetReviews(gameContainerLogic.GetGame(game.Name));
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
     }
 }

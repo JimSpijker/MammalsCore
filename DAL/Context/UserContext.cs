@@ -11,11 +11,11 @@ namespace DAL.Context
 {
     public class UserContext : IUserContext
     {
-        private readonly Connection con;
+        private readonly Connection connection;
 
-        public UserContext()
+        public UserContext(Connection connection)
         {
-            con = new Connection();
+            this.connection = connection;
         }
         
 

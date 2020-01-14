@@ -14,9 +14,9 @@ namespace DAL.Context
 
         private readonly Connection connection;
 
-        public GameContext()
+        public GameContext(Connection connection)
         {
-            connection = new Connection();
+            this.connection = connection;
         }
         public Game GetGame(string gameName)
         {

@@ -18,6 +18,10 @@ namespace Logic
         }
         public bool AddReview(Review review)
         {
+            if (review == null || review.Description == null || review.Description == "" || review.Game == null)
+            {
+                throw new Exception("The given review was empty");
+            }
             if (ReviewExists(review))
             {
                 return false;
@@ -27,16 +31,28 @@ namespace Logic
 
         public bool DeleteReview(Review review)
         {
+            if (review == null || review.Id == 0)
+            {
+                throw new Exception("The given review was empty");
+            }
             throw new NotImplementedException();
         }
 
         public List<Review> GetReviews(Game game)
         {
+            if (game == null || game.Name == null || game.Name == "")
+            {
+                throw new Exception("The given game was empty");
+            }
             return reviewRepository.GetReviews(game);
         }
 
         public bool ReviewExists(Review review)
         {
+            if (review == null || review.UserId == 0 || review.Game == null)
+            {
+                throw new Exception("The given review was empty");
+            }
             return reviewRepository.ReviewExists(review);
         }
     }

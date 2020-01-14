@@ -17,6 +17,7 @@ namespace MammalsCore.Controllers
         {
             this.gameContainerLogic = gameContainerLogic;
         }
+
         public IActionResult Index()
         {
             return View(gameContainerLogic.GetNewGames(5));

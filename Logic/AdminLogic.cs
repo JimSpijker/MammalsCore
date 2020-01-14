@@ -17,6 +17,10 @@ namespace Logic
         }
         public bool AddGame(Game game)
         {
+            if (game == null || game.Name == null || game.Name == "" || game.Description == null || game.Description == "")
+            {
+                throw new Exception("The given game was empty");
+            }
             if (gameRepository.GameExists(game.Name))
             {
                 return false;
@@ -26,11 +30,19 @@ namespace Logic
 
         public void DeleteGame(Game game)
         {
+            if (game == null || game.Name == null || game.Name == "")
+            {
+                throw new Exception("The given game was empty");
+            }
             gameRepository.DeleteGame(game);
         }
 
         public bool GameAlreadyExists(string gameName)
         {
+            if (gameName == null || gameName == "")
+            {
+                throw new Exception("The given game was empty");
+            }
             return gameRepository.GameExists(gameName);
         }
     }

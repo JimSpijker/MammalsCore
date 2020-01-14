@@ -6,19 +6,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
 using System;
 using System.Collections.Generic;
+using DAL;
 
 namespace MammalsUnitTests
 {
     [TestClass]
     public class GameContainerUnitTests
     {
+        private readonly string connectionString = @"Server=mssql.fhict.local;Database=dbi409996;User Id = dbi409996; Password=Frikandel1;";
         private readonly IGameContainerLogic gameContainerLogic;
         private readonly IAdminLogic adminLogic;
-
+        private Connection connection = new Connection();
         public GameContainerUnitTests()
         {
-            adminLogic = new AdminLogic(new GameRepository(new GameContext()));
-            gameContainerLogic = new GameContainerLogic(new GameRepository(new GameContext()));
+            adminLogic = new AdminLogic(new GameRepository(new GameContext(connection)));
+            gameContainerLogic = new GameContainerLogic(new GameRepository(new GameContext(connection)));
             games.Add(game1);
             games.Add(game2);
             games.Add(game3);
@@ -69,6 +71,21 @@ namespace MammalsUnitTests
             Assert.AreEqual(result, games.Count);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void GetAllGames_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                gameContainerLogic.GetAllGames();
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
+        }
+
         //GetGame
 
         [TestMethod]
@@ -104,34 +121,48 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
         public void GetGame_EmptyString()
         {
-            string result;
             AddGames();
             try
             {
-                result = gameContainerLogic.GetGame("").Name;
+                gameContainerLogic.GetGame("");
             }
             finally
             {
                 DeleteGames();
             }
-            Assert.AreNotEqual(result, game1.Name);
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
+        public void GetGame_NullString()
+        {
+            AddGames();
+            try
+            {
+                gameContainerLogic.GetGame(null);
+            }
+            finally
+            {
+                DeleteGames();
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
-        public void GetGame_NullString()
+        public void GetGame_EmptyConnectionString()
         {
-            string result;
-            AddGames();
+            connection.ConnectionString = "";
             try
             {
-                result = gameContainerLogic.GetGame(null).Name;
+                gameContainerLogic.GetGame(game1.Name);
             }
             finally
             {
-                DeleteGames();
+                connection.ConnectionString = connectionString;
             }
         }
 
@@ -170,23 +201,22 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception), "The given amount was or lower than 0")]
         public void GetNewGames_Zero()
         {
-            int result;
             AddGames();
             try
             {
-                result = gameContainerLogic.GetNewGames(0).Count;
+                gameContainerLogic.GetNewGames(0);
             }
             finally
             {
                 DeleteGames();
             }
-            Assert.AreEqual(0, result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(Exception), "The given amount was or lower than 0")]
         public void GetNewGames_NegativeNumber()
         {
             AddGames();
@@ -198,6 +228,21 @@ namespace MammalsUnitTests
             {
                 DeleteGames();
             } 
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void GetNewGames_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                gameContainerLogic.GetNewGames(5);
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
 
         //SearchGames
@@ -280,6 +325,21 @@ namespace MammalsUnitTests
                 DeleteGames();
             }
             Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void SearchGames_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                gameContainerLogic.SearchGames("Test");
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
     }
 }

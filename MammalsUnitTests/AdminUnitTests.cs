@@ -6,19 +6,21 @@ using Logic;
 using DAL.Repositories;
 using DAL.Context;
 using System;
+using DAL;
 
 namespace MammalsUnitTests
 {
     [TestClass]
     public class AdminUnitTests
     {
+        private readonly string connectionString = @"Server=mssql.fhict.local;Database=dbi409996;User Id = dbi409996; Password=Frikandel1;";
         private readonly IAdminLogic adminLogic;
         private readonly IGameContainerLogic gameContainerLogic;
-
+        private Connection connection = new Connection();
         public AdminUnitTests()
         {
-            adminLogic = new AdminLogic(new GameRepository(new GameContext()));
-            gameContainerLogic = new GameContainerLogic(new GameRepository(new GameContext()));
+            adminLogic = new AdminLogic(new GameRepository(new GameContext(connection)));
+            gameContainerLogic = new GameContainerLogic(new GameRepository(new GameContext(connection)));
         }
 
         private Game game = new Game("gameName", "gameDescription");
@@ -57,7 +59,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
         public void AddGame_NullGame()
         {
             Game game = new Game(0, null, null);
@@ -65,11 +67,26 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
         public void AddGame_EmptyGame()
         {
             Game emptyGame = new Game(null, null);
             adminLogic.AddGame(emptyGame);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void AddGame_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                adminLogic.AddGame(game);
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
 
         //GameAlreadyExists
@@ -98,17 +115,32 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
         public void GameAlreadyExists_EmptyString()
         {
             bool result = adminLogic.GameAlreadyExists("");
-            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
+        public void GameAlreadyExists_NullString()
+        {
+            bool result = adminLogic.GameAlreadyExists(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
-        public void GameAlreadyExists_NullString()
+        public void GameAlreadyExists_EmptyConnectionString()
         {
-            bool result = adminLogic.GameAlreadyExists(null);
+            connection.ConnectionString = "";
+            try
+            {
+                adminLogic.GameAlreadyExists(game.Name);
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
 
         //DeleteGame
@@ -123,10 +155,25 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(Exception), "The given game was empty")]
         public void DeleteGame_EmptyGame()
         {
             adminLogic.DeleteGame(new Game(null, null));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        public void DeleteGame_EmptyConnectionString()
+        {
+            connection.ConnectionString = "";
+            try
+            {
+                adminLogic.AddGame(game);
+            }
+            finally
+            {
+                connection.ConnectionString = connectionString;
+            }
         }
     }
 }

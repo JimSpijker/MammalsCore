@@ -13,9 +13,9 @@ namespace DAL.Context
     {
         private readonly Connection connection;
 
-        public ReviewContext()
+        public ReviewContext(Connection connection)
         {
-            connection = new Connection();
+            this.connection = connection;
         }
 
         public bool UpdateReview(Review changedReview)

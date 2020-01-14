@@ -22,11 +22,19 @@ namespace Logic
 
         public Game GetGame(string gameName)
         {
+            if (gameName == null || gameName == "")
+            {
+                throw new Exception("The given game was empty");
+            }
             return gameRepository.GetGame(gameName);
         }
 
         public List<Game> GetNewGames(int amount)
         {
+            if (amount <= 0)
+            {
+                throw new Exception("The given amount was or lower than");
+            }
             return gameRepository.GetNewGames(amount);
         }
 

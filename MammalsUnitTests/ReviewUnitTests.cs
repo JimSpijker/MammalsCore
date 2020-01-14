@@ -1,4 +1,5 @@
-﻿using DAL.Context;
+﻿using DAL;
+using DAL.Context;
 using DAL.Repositories;
 using Logic;
 using Logic.Interfaces;
@@ -13,9 +14,10 @@ namespace MammalsUnitTests
     public class ReviewUnitTests
     {
         IReviewLogic reviewLogic;
+        private Connection connection = new Connection();
         public ReviewUnitTests()
         {
-            reviewLogic = new ReviewLogic(new ReviewRepository(new ReviewContext()));
+            reviewLogic = new ReviewLogic(new ReviewRepository(new ReviewContext(connection)));
         }
 
     }
