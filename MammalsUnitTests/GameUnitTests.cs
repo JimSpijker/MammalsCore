@@ -2,6 +2,7 @@
 using DAL.Context;
 using DAL.Repositories;
 using Logic;
+using Logic.Exceptions;
 using Logic.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
@@ -64,14 +65,14 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given review was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given review was empty")]
         public void AddReview_EmptyReview()
         {
             gameLogic.AddReview(new Review(0, null, null, 0));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void AddReview_EmptyConnectionString()
         {
             connection.ConnectionString = "";
@@ -122,14 +123,14 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given review was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given review was empty")]
         public void ReviewExists_EmptyReview()
         {
             bool result = gameLogic.ReviewExists(new Review(0, null, null, 0));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void ReviewExists_EmptyConnectionString()
         {
             connection.ConnectionString = "";
@@ -197,7 +198,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void GetReviews_EmptyGame()
         {
             int result = gameLogic.GetReviews(new Game(0, null, null)).Count;
@@ -205,14 +206,14 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void GetReviews_NullGame()
         {
             gameLogic.GetReviews(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void GetReviews_EmptyConnectionString()
         {
             connection.ConnectionString = "";

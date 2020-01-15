@@ -7,6 +7,7 @@ using DAL.Repositories;
 using DAL.Context;
 using System;
 using DAL;
+using Logic.Exceptions;
 
 namespace MammalsUnitTests
 {
@@ -59,7 +60,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void AddGame_NullGame()
         {
             Game game = new Game(0, null, null);
@@ -67,7 +68,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void AddGame_EmptyGame()
         {
             Game emptyGame = new Game(null, null);
@@ -75,7 +76,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void AddGame_EmptyConnectionString()
         {
             connection.ConnectionString = "";
@@ -115,21 +116,21 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void GameAlreadyExists_EmptyString()
         {
             bool result = adminLogic.GameAlreadyExists("");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void GameAlreadyExists_NullString()
         {
             bool result = adminLogic.GameAlreadyExists(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void GameAlreadyExists_EmptyConnectionString()
         {
             connection.ConnectionString = "";
@@ -155,14 +156,14 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void DeleteGame_EmptyGame()
         {
             adminLogic.DeleteGame(new Game(null, null));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void DeleteGame_EmptyConnectionString()
         {
             connection.ConnectionString = "";

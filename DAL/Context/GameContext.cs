@@ -6,6 +6,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using Models;
+using Logic;
+using Logic.Exceptions;
 
 namespace DAL.Context
 {
@@ -39,7 +41,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return game;
         }
@@ -59,7 +61,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return true;
         }
@@ -86,7 +88,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return games;
         }
@@ -114,7 +116,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return false;
         }
@@ -140,7 +142,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return games;
         }
@@ -167,7 +169,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return games;
         }
@@ -186,7 +188,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
         }
     }

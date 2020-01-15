@@ -1,4 +1,5 @@
-﻿using Logic.Interfaces;
+﻿using Logic.Exceptions;
+using Logic.Interfaces;
 using Logic.RepositoryInterfaces;
 using Models;
 using System;
@@ -24,7 +25,7 @@ namespace Logic
         {
             if (gameName == null || gameName == "")
             {
-                throw new Exception("The given game was empty");
+                throw new EmptyOrNullException("The given game was empty");
             }
             return gameRepository.GetGame(gameName);
         }
@@ -33,7 +34,7 @@ namespace Logic
         {
             if (amount <= 0)
             {
-                throw new Exception("The given amount was or lower than");
+                throw new EmptyOrNullException("The given amount was or lower than 0");
             }
             return gameRepository.GetNewGames(amount);
         }

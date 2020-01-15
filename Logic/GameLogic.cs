@@ -1,4 +1,5 @@
-﻿using Logic.Interfaces;
+﻿using Logic.Exceptions;
+using Logic.Interfaces;
 using Logic.RepositoryInterfaces;
 using Models;
 using System;
@@ -20,7 +21,7 @@ namespace Logic
         {
             if (review == null || review.Description == null || review.Description == "" || review.Game == null)
             {
-                throw new Exception("The given review was empty");
+                throw new EmptyOrNullException("The given review was empty");
             }
             if (ReviewExists(review))
             {
@@ -33,7 +34,7 @@ namespace Logic
         {
             if (review == null || review.Id == 0)
             {
-                throw new Exception("The given review was empty");
+                throw new EmptyOrNullException("The given review was empty");
             }
             throw new NotImplementedException();
         }
@@ -42,7 +43,7 @@ namespace Logic
         {
             if (game == null || game.Name == null || game.Name == "")
             {
-                throw new Exception("The given game was empty");
+                throw new EmptyOrNullException("The given game was empty");
             }
             return reviewRepository.GetReviews(game);
         }
@@ -51,7 +52,7 @@ namespace Logic
         {
             if (review == null || review.UserId == 0 || review.Game == null)
             {
-                throw new Exception("The given review was empty");
+                throw new EmptyOrNullException("The given review was empty");
             }
             return reviewRepository.ReviewExists(review);
         }

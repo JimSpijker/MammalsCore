@@ -7,6 +7,7 @@ using Models;
 using System;
 using System.Collections.Generic;
 using DAL;
+using Logic.Exceptions;
 
 namespace MammalsUnitTests
 {
@@ -72,7 +73,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void GetAllGames_EmptyConnectionString()
         {
             connection.ConnectionString = "";
@@ -121,7 +122,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void GetGame_EmptyString()
         {
             AddGames();
@@ -137,7 +138,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given game was empty")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given game was empty")]
         public void GetGame_NullString()
         {
             AddGames();
@@ -152,7 +153,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void GetGame_EmptyConnectionString()
         {
             connection.ConnectionString = "";
@@ -201,7 +202,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given amount was or lower than 0")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given amount was or lower than 0")]
         public void GetNewGames_Zero()
         {
             AddGames();
@@ -216,7 +217,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "The given amount was or lower than 0")]
+        [ExpectedException(typeof(EmptyOrNullException), "The given amount was or lower than 0")]
         public void GetNewGames_NegativeNumber()
         {
             AddGames();
@@ -231,7 +232,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void GetNewGames_EmptyConnectionString()
         {
             connection.ConnectionString = "";
@@ -328,7 +329,7 @@ namespace MammalsUnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Had trouble connecting to server")]
+        [ExpectedException(typeof(ServerException), "Had trouble connecting to server")]
         public void SearchGames_EmptyConnectionString()
         {
             connection.ConnectionString = "";

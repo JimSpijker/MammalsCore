@@ -6,6 +6,8 @@ using DAL.Context.Interfaces;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using Logic;
+using Logic.Exceptions;
 
 namespace DAL.Context
 {
@@ -33,7 +35,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return true;
         }
@@ -65,7 +67,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return reviews;
         }
@@ -87,7 +89,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return true;
         }
@@ -105,7 +107,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return true;
         }
@@ -132,7 +134,7 @@ namespace DAL.Context
             }
             catch
             {
-                throw new Exception("Had trouble connecting to server");
+                throw new ServerException("Had trouble connecting to server");
             }
             return false;
         }

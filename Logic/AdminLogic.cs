@@ -1,4 +1,5 @@
-﻿using Logic.Interfaces;
+﻿using Logic.Exceptions;
+using Logic.Interfaces;
 using Logic.RepositoryInterfaces;
 using Models;
 using System;
@@ -19,7 +20,7 @@ namespace Logic
         {
             if (game == null || game.Name == null || game.Name == "" || game.Description == null || game.Description == "")
             {
-                throw new Exception("The given game was empty");
+                throw new EmptyOrNullException("The given game was empty");
             }
             if (gameRepository.GameExists(game.Name))
             {
@@ -32,7 +33,7 @@ namespace Logic
         {
             if (game == null || game.Name == null || game.Name == "")
             {
-                throw new Exception("The given game was empty");
+                throw new EmptyOrNullException("The given game was empty");
             }
             gameRepository.DeleteGame(game);
         }
@@ -41,7 +42,7 @@ namespace Logic
         {
             if (gameName == null || gameName == "")
             {
-                throw new Exception("The given game was empty");
+                throw new EmptyOrNullException("The given game was empty");
             }
             return gameRepository.GameExists(gameName);
         }
